@@ -1,89 +1,207 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>For You ❤️</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #ff758c, #ff7eb3);
-            color: white;
-            overflow: hidden;
-        }
+<title>For You ❤️</title>
 
-        .box {
-            background: rgba(255,255,255,0.15);
-            padding: 40px 25px;
-            border-radius: 25px;
-            width: 80%;
-        }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-        h1 {
-            font-size: 32px;
-        }
+body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3, #ffb199);
+    color: white;
+}
 
-        button {
-            padding: 14px 28px;
-            margin: 15px 8px;
-            font-size: 18px;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-        }
+.card {
+    width: 90%;
+    max-width: 420px;
+    padding: 40px 25px;
+    text-align: center;
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(15px);
+    border-radius: 30px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
 
-        #yes {
-            background: white;
-        }
+.heart {
+    font-size: 65px;
+    animation: beat 1s infinite;
+}
 
-        #no {
-            background: white;
-            position: absolute;
-        }
+@keyframes beat {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
 
-        #message {
-            display: none;
-            font-size: 25px;
-        }
-    </style>
+h1 {
+    font-size: 32px;
+    margin: 15px 0;
+}
+
+p {
+    font-size: 18px;
+    opacity: 0.95;
+}
+
+.buttons {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    position: relative;
+    height: 60px;
+}
+
+button {
+    border: none;
+    padding: 15px 28px;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#yes {
+    background: white;
+    color: #ff4f81;
+}
+
+#no {
+    background: #ff4f81;
+    color: white;
+    position: absolute;
+}
+
+#message {
+    display: none;
+}
+
+#message h2 {
+    font-size: 30px;
+}
+
+.floating-heart {
+    position: fixed;
+    bottom: -30px;
+    font-size: 25px;
+    animation: float 5s linear forwards;
+    pointer-events: none;
+}
+
+@keyframes float {
+    from {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <div class="box" id="question">
-        <h1>Do You Love Me? ❤️</h1>
+<div class="card" id="question">
 
-        <button id="yes" onclick="yesClicked()">YES ❤️</button>
+    <div class="heart">❤️</div>
 
-        <button id="no" onclick="moveNo()">NO 😏</button>
+    <h1>Do You Love Me?</h1>
+
+    <p>Be honest... 😌💕</p>
+
+    <div class="buttons">
+
+        <button id="yes">YES ❤️</button>
+
+        <button id="no">NO 😏</button>
+
     </div>
 
-    <div id="message">
-        <h1>I Knew It! 😍❤️</h1>
-        <p>You are very special to me. 💖</p>
+</div>
+
+
+<div class="card" id="message">
+
+    <div class="heart">💖</div>
+
+    <h2>I Knew It! 😭❤️</h2>
+
+    <p>
+        I love you more than words can say. ❤️
+        <br><br>
+        You are my favorite person. 🥹💕
+    </p>
+
+    <div style="font-size:40px;">
+        💕 💖 💕
     </div>
 
-    <script>
-        function moveNo() {
-            let no = document.getElementById("no");
+</div>
 
-            let x = Math.random() * (window.innerWidth - 120);
-            let y = Math.random() * (window.innerHeight - 60);
 
-            no.style.left = x + "px";
-            no.style.top = y + "px";
-        }
+<script>
 
-        function yesClicked() {
-            document.getElementById("question").style.display = "none";
-            document.getElementById("message").style.display = "block";
-        }
-    </script>
+const noButton = document.getElementById("no");
+const yesButton = document.getElementById("yes");
+
+function moveNoButton() {
+
+    const maxX = window.innerWidth - noButton.offsetWidth - 20;
+    const maxY = window.innerHeight - noButton.offsetHeight - 20;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noButton.style.position = "fixed";
+    noButton.style.left = x + "px";
+    noButton.style.top = y + "px";
+}
+
+noButton.addEventListener("mouseenter", moveNoButton);
+noButton.addEventListener("touchstart", function(e) {
+    e.preventDefault();
+    moveNoButton();
+});
+
+yesButton.addEventListener("click", function() {
+
+    document.getElementById("question").style.display = "none";
+    document.getElementById("message").style.display = "block";
+
+    for(let i = 0; i < 30; i++) {
+
+        const heart = document.createElement("div");
+
+        heart.className = "floating-heart";
+
+        heart.innerHTML = ["❤️","💖","💕","💗","💓"][Math.floor(Math.random()*5)];
+
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (3 + Math.random()*3) + "s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 6000);
+    }
+});
+
+</script>
 
 </body>
 </html>
